@@ -1,0 +1,51 @@
+/**
+ * HirePilot AI design tokens — imported from app/globals.css
+ * Green = shortlist, Red = reject, Yellow = review
+ */
+:root {
+  --hp-surface: #f8fafc;
+  --hp-surface-elevated: #ffffff;
+  --hp-border: #e2e8f0;
+  --hp-text: #0f172a;
+  --hp-text-muted: #64748b;
+  --hp-accent: #2563eb;
+  --hp-accent-muted: #dbeafe;
+  --hp-shortlist: #16a34a;
+  --hp-shortlist-bg: #dcfce7;
+  --hp-reject: #dc2626;
+  --hp-reject-bg: #fee2e2;
+  --hp-review: #ca8a04;
+  --hp-review-bg: #fef9c3;
+  --hp-sidebar: #0f172a;
+  --hp-sidebar-text: #94a3b8;
+  --hp-sidebar-active: #ffffff;
+  --hp-radius: 0.75rem;
+  --hp-shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.08);
+}
+
+.dark {
+  --hp-surface: #0f172a;
+  --hp-surface-elevated: #1e293b;
+  --hp-border: #334155;
+  --hp-text: #f1f5f9;
+  --hp-text-muted: #94a3b8;
+  --hp-accent: #3b82f6;
+  --hp-accent-muted: #1e3a5f;
+  --hp-shortlist: #4ade80;
+  --hp-shortlist-bg: #14532d;
+  --hp-reject: #f87171;
+  --hp-reject-bg: #7f1d1d;
+  --hp-review: #fbbf24;
+  --hp-review-bg: #78350f;
+  --hp-sidebar: #020617;
+  --hp-sidebar-text: #94a3b8;
+  --hp-sidebar-active: #ffffff;
+  --hp-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.4);
+}
+
+@keyframes hp-spin {
+  to { transform: rotate(360deg); }
+}
+.hp-spinner {
+  animation: hp-spin 0.75s linear infinite;
+}

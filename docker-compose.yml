@@ -1,0 +1,95 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hirepilot_backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-4000}:4000"
+    environment:
+      # Load all variables from .env file
+      - PORT=4000
+      - HOST=0.0.0.0
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000}
+      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_CHAT_MODEL=${OPENAI_CHAT_MODEL:-llama3.1-8b}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.cerebras.ai/v1}
+      - EMBEDDING_PROVIDER=${EMBEDDING_PROVIDER:-local}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_EMBEDDING_MODEL=${GEMINI_EMBEDDING_MODEL:-models/text-embedding-004}
+      - CEREBRAS_API_KEY=${CEREBRAS_API_KEY}
+      - CEREBRAS_CHAT_MODEL=${CEREBRAS_CHAT_MODEL:-llama3.1-8b}
+      - LLM_PROVIDER=${LLM_PROVIDER:-openai}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+    depends_on:
+      - chromadb
+    networks:
+      - hirepilot_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # BACKEND_URL is the internal Docker network address — used by the
+        # Next.js server-side proxy rewrite (never sent to the browser).
+        - BACKEND_URL=http://backend:4000
+        # Leave NEXT_PUBLIC_API_URL empty so browser fetch calls use relative
+        # /api/... paths, which are proxied by Next.js to BACKEND_URL above.
+        - NEXT_PUBLIC_API_URL=
+    container_name: hirepilot_frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - hirepilot_network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: hirepilot_chromadb
+    restart: unless-stopped
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./data/chroma:/data
+    networks:
+      - hirepilot_network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/v2/heartbeat || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  hirepilot_network:
+    driver: bridge
+
+volumes:
+  chroma_data:
+    driver: local

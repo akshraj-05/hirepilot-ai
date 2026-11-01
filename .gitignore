@@ -1,0 +1,107 @@
+# HirePilot monorepo — single gitignore for frontend + backend
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# --- IDE / local tools ---
+.idea/
+*.iml
+.vscode/
+.cursor/
+
+# --- Environment & secrets ---
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.local
+backend/.env.*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+
+# --- Frontend (Next.js / Node) ---
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.vercel/
+frontend/.turbo/
+frontend/coverage/
+frontend/.eslintcache
+frontend/*.tsbuildinfo
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# --- Root / shared Node (if you add tooling at repo root) ---
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# --- Backend (Python / FastAPI) — virtualenvs & build outputs under backend/ ---
+backend/.venv/
+backend/venv/
+backend/env/
+backend/ENV/
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+backend/**/*.egg-info/
+backend/.eggs/
+backend/dist/
+backend/build/
+*.egg
+
+backend/.pytype/
+backend/.tox/
+backend/.nox/
+backend/.coverage
+backend/dmypy.json
+backend/.dmypy.json
+
+# --- Logs & temp ---
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# --- Test / coverage (any package) ---
+coverage/
+.nyc_output/
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.cover
+.hypothesis/
+
+# --- Misc ---
+*.orig
+*.bak
+.cache/
+
+# --- Data Base ----
+data/
+
+
+backend/token.json
+backend/credentials.json
+backend/token_backup.json

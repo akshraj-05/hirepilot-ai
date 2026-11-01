@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "../styles/theme.css";
+
+@theme inline {
+  --color-background: var(--hp-surface);
+  --color-foreground: var(--hp-text);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--hp-surface);
+  color: var(--hp-text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@media print {
+  /* Hide sidebar, mobile nav, chat widget, and any no-print elements */
+  aside,
+  .hp-no-print,
+  [data-chat-widget] {
+    display: none !important;
+  }
+
+  /* Remove scroll constraints so full content prints */
+  html, body, .flex.h-screen, .flex-1.overflow-auto {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Full width — no sidebar gap */
+  .flex.h-screen > div:last-child {
+    width: 100% !important;
+    border: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  /* Clean white background for print */
+  * {
+    background-color: white !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep colored text for scores */
+  .text-green-400 { color: #16a34a !important; }
+  .text-yellow-400 { color: #ca8a04 !important; }
+  .text-red-400 { color: #dc2626 !important; }
+
+  /* Keep bar chart colors */
+  .bg-green-500 { background-color: #22c55e !important; }
+  .bg-yellow-500 { background-color: #eab308 !important; }
+  .bg-blue-500 { background-color: #3b82f6 !important; }
+  .bg-red-500 { background-color: #ef4444 !important; }
+
+  /* Borders visible on print */
+  [class*="border"] {
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Avoid page breaks inside cards */
+  section {
+    break-inside: avoid;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "HirePilot DB",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "hirepilot_db",
+      "Username": "hirepilot_user",
+      "Password": "hirepilot_pass",
+      "SSLMode": "prefer",
+      "SavePassword": true
+    }
+  }
+}
